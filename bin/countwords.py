@@ -4,10 +4,10 @@ and output them in CSV format.
 """
 
 import argparse
-import sys
-import csv
 import string
 from collections import Counter
+
+import utilities as util
 
 
 def count_words(reader):
@@ -20,18 +20,9 @@ def count_words(reader):
     return word_counts
 
 
-def collection_to_csv(collection, num=None):
-    """Write collection of items and counts in CSV format."""
-    collection = collection.most_common()
-    if num is None:
-        num = len(collection)
-    writer = csv.writer(sys.stdout)
-    writer.writerows(collection[:num])
-
-
 def main(args):
     word_counts = count_words(args.infile)
-    collection_to_csv(word_counts, num=args.num)
+    util.collection_to_csv(word_counts, num=args.num)
 
 
 if __name__ == '__main__':
