@@ -14,7 +14,13 @@ def nlog_likelihood(beta, counts):
 
 
 def get_power_law_params(word_counts):
-    """Get the power law parameters."""
+    """Get the power law parameters.
+
+    Moreno-Sanchez et al (2016) define alpha (eq. 1),
+    beta (eq. 2) and the maximum likelihood estimation (mle)
+    of beta (eq. 6).
+    https://doi.org/10.1371/journal.pone.0147073
+    """
     mle = minimize_scalar(nlog_likelihood,
                           bracket=(1 + 1e-10, 4),
                           args=word_counts,
@@ -50,7 +56,7 @@ def main(args):
                          figsize=[12, 6],
                          grid=True,
                          xlim=args.xlim)
-    
+
     word_counts = df['word_frequency'].to_numpy()
     alpha = get_power_law_params(word_counts)
     print(f"alpha: {alpha}")
