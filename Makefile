@@ -7,7 +7,7 @@ COLLATE=bin/collate.py
 PLOT=bin/plotcounts.py
 SUMMARY=bin/book_summary.sh
 
-## all :  Regenerate all results
+## all : Regenerate all results
 all : results/collated.png
 
 ## results/collated.png : Plot the collated results
@@ -41,6 +41,7 @@ settings :
 	@echo PLOT: $(PLOT)
 	@echo SUMMARY: $(SUMMARY)
 
-## help : Show this message
+## help : Show all commands
 help :
-	@grep '^##' ./Makefile
+	@grep -h -E '^##' ${MAKEFILE_LIST} | sed -e 's/## //g' \
+		| column -t -s ':'
