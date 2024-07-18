@@ -24,7 +24,7 @@ results/%.csv : data/%.txt $(COUNT)
 
 ## clean : Remove all generated files
 clean :
-	rm -f results/*.csv
+	rm $(RESULTS) results/collated.csv results/collated.png
 
 ## settings : Show variable's values
 settings :
