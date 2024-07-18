@@ -1,11 +1,9 @@
 .PHONY : all results clean help settings
 
-COUNT=bin/countwords.py
+include config.mk
+
 DATA=$(wildcard data/*.txt)
 RESULTS=$(patsubst data/%.txt,results/%.csv,$(DATA))
-COLLATE=bin/collate.py
-PLOT=bin/plotcounts.py
-SUMMARY=bin/book_summary.sh
 
 ## all : Regenerate all results
 all : results/collated.png
