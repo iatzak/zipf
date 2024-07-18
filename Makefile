@@ -1,4 +1,4 @@
-.PHONY : all clean help  settings
+.PHONY : all results clean help settings
 
 COUNT=bin/countwords.py
 DATA=$(wildcard data/*.txt)
@@ -24,6 +24,9 @@ results/%.csv : data/%.txt $(COUNT)
 	@$(SUMMARY) $< 'Title'
 	@$(SUMMARY) $< 'Author'
 	python3 $(COUNT) $< > $@
+
+## results : Regenerate results for all books
+results : $(RESULTS)
 
 ## clean : Remove all generated files
 clean :
