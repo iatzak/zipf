@@ -4,10 +4,10 @@ COUNT=bin/countwords.py
 RUN_COUNT=python3 $(COUNT)
 
 # Regenerate all results
-all : results/moby_dick.csv results/jane_eyre.csv
+all : results/moby_dick.csv results/jane_eyre.csv results/time_machine.csv
 
-# Regenerate results for "Moby Dick°
-results/moby_dick.csv : data/moby_dick.txt $(COUNT)
+# Regenerate results for any book
+results/%.csv : data/%.txt $(COUNT)
 	$(RUN_COUNT) $< > $@
 
 # Regenerate results for "Jane Eyre°
