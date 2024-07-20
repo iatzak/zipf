@@ -1,9 +1,11 @@
 """Plot word counts."""
 
+import yaml
 import argparse
 import numpy as np
 import pandas as pd
 from scipy.optimize import minimize_scalar
+import matplotlib as mpl
 
 
 def nlog_likelihood(beta, counts):
@@ -30,6 +32,18 @@ def get_power_law_params(word_counts):
     return alpha
 
 
+def set_plot_params(param_file):
+    """Set the matplotlib parameters."""
+    if param_file:
+        with open(param_file, 'r') as reader:
+            param_dict = yaml.load(reader,
+                                   Loader=yaml.BaseLoader)
+    else:
+        param_dict = {}
+    for param, value in param_dict.items():
+        mpl.rcParams[param] = value
+
+
 def plot_fit(curve_xmin, curve_xmax, max_rank, alpha, ax):
     """Plot the power law curve that was fitted to the data.
 
@@ -47,6 +61,7 @@ def plot_fit(curve_xmin, curve_xmax, max_rank, alpha, ax):
 
 def main(args):
     """Run the command line program."""
+    set_plot_params(args.plotparams)
     df = pd.read_csv(args.infile, header=None,
                      names=('word', 'word_frequency'))
     df['rank'] = df['word_frequency'].rank(ascending=False,
@@ -85,5 +100,7 @@ if __name__ == '__main__':
     parser.add_argument('--xlim', type=float, nargs=2,
                         metavar=('XMIN', 'XMAX'),
                         default=None, help='X-axis limits')
+    parser.add_argument('--plotparams', type=str, default=None,
+                        help='matplotlib parameters (YAML file)')
     args = parser.parse_args()
     main(args)
