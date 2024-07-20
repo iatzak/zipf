@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 from scipy.optimize import minimize_scalar
 import matplotlib as mpl
+import matplotlib.pyplot as plt
 
 
 def nlog_likelihood(beta, counts):
@@ -62,6 +63,8 @@ def plot_fit(curve_xmin, curve_xmax, max_rank, alpha, ax):
 def main(args):
     """Run the command line program."""
     set_plot_params(args.plotparams)
+    if args.style:
+        plt.style.use(args.style)
     df = pd.read_csv(args.infile, header=None,
                      names=('word', 'word_frequency'))
     df['rank'] = df['word_frequency'].rank(ascending=False,
@@ -102,5 +105,8 @@ if __name__ == '__main__':
                         default=None, help='X-axis limits')
     parser.add_argument('--plotparams', type=str, default=None,
                         help='matplotlib parameters (YAML file)')
+    parser.add_argument('--style', type=str, default=None,
+                        nargs='*', choices=plt.style.available,
+                        help='Matplotlib plot style')
     args = parser.parse_args()
     main(args)
