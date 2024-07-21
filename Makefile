@@ -9,7 +9,7 @@ RESULTS=$(patsubst data/%.txt,results/%.csv,$(DATA))
 all : results/collated.png
 
 ## results/collated.png : Plot the collated results
-results/collated.png : results/collated.csv bin/plotparams.yml
+results/collated.png : results/collated.csv $(PARAMS)
 	python3 $(PLOT) $< --outfile $@ --plotparams $(word 2,$^)
 
 ## results/collated.csv : Collate all results
@@ -37,6 +37,7 @@ settings :
 	@echo RESULTS: $(RESULTS)
 	@echo COLLATE: $(COLLATE)
 	@echo PLOT: $(PLOT)
+	@echo PARAMS: $(PARAMS)
 	@echo SUMMARY: $(SUMMARY)
 
 ## help : Show all commands
