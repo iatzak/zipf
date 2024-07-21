@@ -26,6 +26,11 @@ results/%.csv : data/%.txt $(COUNT)
 ## results : Regenerate results for all books
 results : $(RESULTS)
 
+## test-saveconfig : save plot configuration
+test-saveconfig :
+	python3 $(PLOT) --saveconfig /tmp/test-saveconfig.yml \
+		--plotparams $(PARAMS)
+
 ## clean : Remove all generated files
 clean :
 	rm $(RESULTS) results/collated.csv results/collated.png
