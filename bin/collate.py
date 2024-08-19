@@ -14,6 +14,8 @@ import utilities as util
 ERRORS = {
     'not_csv_suffix': '{fname}: Filename must end in .csv',
 }
+
+
 def update_counts(reader, word_counts):
     """Update word counts with data from another reader/file."""
     for word, count in csv.reader(reader):
@@ -22,6 +24,8 @@ def update_counts(reader, word_counts):
 
 def main(args):
     """Run the command line program."""
+    log_level = logging.DEBUG if args.verbose else logging.WARNING
+    logging.basicConfig(level=log_level)
     word_counts = Counter()
     logging.info('Processing files...')
     for fname in args.infiles:
@@ -41,5 +45,8 @@ if __name__ == '__main__':
                         help='Input file names')
     parser.add_argument('-n', '--num', type=int, default=None,
                         help='Output n most frequent words')
+    parser.add_argument('-v', '--verbose', default=None,
+                        action=argparse.BooleanOptionalAction,
+                        help='Set logging level to DEBUG')
     args = parser.parse_args()
     main(args)
