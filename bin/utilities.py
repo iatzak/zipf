@@ -4,6 +4,11 @@ import sys
 import csv
 
 
+ERRORS = {
+    'not_csv_suffix': '{fname}: Filename must end in .csv',
+}
+
+
 def collection_to_csv(collection, num=None):
     """
     Write out collection of items and counts in csv format.
