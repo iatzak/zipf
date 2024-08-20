@@ -3,6 +3,7 @@ import pytest
 import numpy as np
 import countwords
 import plotcounts
+import collate
 
 
 def test_word_count():
@@ -58,3 +59,17 @@ def test_regression():
     actual_alpha = plotcounts.get_power_law_params(counts_array)
     expected_alpha = pytest.approx(1.087, abs=0.001)
     assert actual_alpha == expected_alpha
+
+
+def test_not_csv_error():
+    """Test error handling for CSV check"""
+    word_counts = Counter()
+    with pytest.raises(OSError):
+        collate.process_file('data/Dracula.pdf', word_counts)
+
+
+def test_file_not_found_error():
+    """Test error handling for file not found"""
+    word_counts = Counter()
+    with pytest.raises(FileNotFoundError):
+        collate.process_file('data/non_existent.csv', word_counts)
