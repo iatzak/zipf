@@ -30,13 +30,20 @@ def main(args):
     word_counts = Counter()
     logging.info('Processing files...')
     for fname in args.infiles:
-        logging.debug(f'Reading in {fname}...')
-        if fname[-4:] != '.csv':
-            msg = ERRORS['not_csv_suffix'].format(fname=fname)
-            raise OSError(msg)
-        with open(fname, 'r') as reader:
-            logging.debug('Computing word counts...')
-            update_counts(reader, word_counts)
+        try:
+            logging.debug(f'Reading in {fname}...')
+            if fname[-4:] != '.csv':
+                msg = ERRORS['not_csv_suffix'].format(fname=fname)
+                raise OSError(msg)
+            with open(fname, 'r') as reader:
+                logging.debug('Computing word counts...')
+                update_counts(reader, word_counts)
+        except FileNotFoundError:
+            logging.warning(f'{fname} not processed: file not found')
+        except PermissionError:
+            logging.warning(f'{fname} not processed: unsufficient permissions')
+        except Exception as error:
+            logging.warning(f'{fname} not processed: {error}')
     util.collection_to_csv(word_counts, num=args.num)
 
 
